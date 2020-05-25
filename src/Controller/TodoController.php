@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 
-class TodoController extends AbstractController
+class TodoController extends AbstractFOSRestController
 {	
 	/**
 	 * @Route("/", methods="GET") 
 	 */
 	public function index()
 	{
-		return new Response('I love pizza');
+		$data = ['a' => 'I love pizza'];
+        $view = $this->view($data, 200);
+
+        return $this->handleView($view);
 	}
 
 	/**
@@ -24,5 +26,5 @@ class TodoController extends AbstractController
 		return $this->json([
 			'test' => "Test Id: $id"
 		]);
-	}	
+	}
 }
