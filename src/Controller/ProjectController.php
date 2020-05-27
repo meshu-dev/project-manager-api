@@ -3,9 +3,19 @@
 namespace App\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\Request\ParamFetcher;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use App\Repository\ProjectRepository;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends AbstractFOSRestController
 {
@@ -18,58 +28,79 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route("/projects/{id}", methods="GET")
+     * @View(statusCode=200)
      */
-    public function getOne(int $id)
+    public function getAction(int $id)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProjectController.php',
-        ]);
+        $project = $this->projectRepository->find($id);
+
+        return $this->handleView(
+            $this->view(
+                $project,
+                Response::HTTP_OK
+            )
+        );
     }
 
 
     /**
      * @Route("/projects", methods="GET")
      */
-    public function getAll()
+    public function getAllAction()
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProjectController.php',
-        ]);
+        $projects = $this->projectRepository->findAll();
+
+        return $this->handleView(
+            $this->view(
+                $projects,
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
      * @Route("/projects", methods="POST")
+     *
+     * @param ParamFetcher $paramFetcher
      */
-    public function add()
+    public function postAction(Request $request, ParamFetcher $paramFetcher)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProjectController.php',
-        ]);
+        $params = $request->request->all();
+
+        return $this->handleView(
+            $this->view(
+                [
+                    $params
+                ],
+                Response::HTTP_CREATED
+            )
+        );
     }
 
     /**
-     * @Route("/project", methods="GET", name="project")
+     * @Route("/projects", methods="PUT", name="project")
      */
-    public function edit()
+    public function putAction()
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProjectController.php',
-        ]);
+        return $this->handleView(
+            $this->view(
+                [],
+                Response::HTTP_OK
+            )
+        );
     }
 
 
     /**
-     * @Route("/project", methods="GET", name="project")
+     * @Route("/projects", methods="DELETE", name="project")
      */
-    public function delete(int $id)
+    public function deleteAction(int $id)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProjectController.php',
-        ]);
+        return $this->handleView(
+            $this->view(
+                [],
+                Response::HTTP_NO_CONTENT
+            )
+        );
     }
 }
