@@ -17,6 +17,8 @@ use App\Repository\ProjectRepository;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use FOS\RestBundle\View\View As RestView;
+
 class ProjectController extends AbstractFOSRestController
 {
     private $projectRepository;
@@ -46,14 +48,18 @@ class ProjectController extends AbstractFOSRestController
      */
     public function getAllAction()
     {
-        $projects = $this->projectRepository->findAll();
+        $view = RestView::create();
 
-        return $this->handleView(
-            $this->view(
-                $projects,
-                Response::HTTP_OK
-            )
+        $projects = $this->projectRepository->findAll();
+        $totalProjects = $this->projectRepository->getTotal();
+
+        $view->setHeader('X-Total-Count', $totalProjects);
+        $view->setData(
+            $projects,
+            Response::HTTP_OK
         );
+
+        return $this->handleView($view);
     }
 
     /**

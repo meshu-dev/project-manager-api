@@ -55,4 +55,9 @@ class TaskRepository extends ServiceEntityRepository
         $this->entityManager->remove($task);
         $this->entityManager->flush();
     }
+
+    public function getTotal()
+    {
+        return $this->count([]);
+    }
 }

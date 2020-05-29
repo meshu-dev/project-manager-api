@@ -18,6 +18,8 @@ use App\Repository\ProjectRepository;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use FOS\RestBundle\View\View As RestView;
+
 class TaskController extends AbstractFOSRestController
 {
     private $taskRepository;
@@ -51,14 +53,18 @@ class TaskController extends AbstractFOSRestController
      */
     public function getAllAction()
     {
-        $tasks = $this->taskRepository->findAll();
+        $view = RestView::create();
 
-        return $this->handleView(
-            $this->view(
-                $tasks,
-                Response::HTTP_OK
-            )
+        $tasks = $this->taskRepository->findAll();
+        $totalTasks = $this->taskRepository->getTotal();
+
+        $view->setHeader('X-Total-Count', $totalTasks);
+        $view->setData(
+            $tasks,
+            Response::HTTP_OK
         );
+
+        return $this->handleView($view);
     }
 
     /**

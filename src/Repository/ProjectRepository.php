@@ -53,4 +53,9 @@ class ProjectRepository extends ServiceEntityRepository
         $this->entityManager->remove($project);
         $this->entityManager->flush();
     }
+
+    public function getTotal()
+    {
+        return $this->count([]);
+    }
 }
