@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Project|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +15,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProjectRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $entityManager;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        EntityManagerInterface $entityManager
+    ) {
         parent::__construct($registry, Project::class);
+        $this->entityManager = $entityManager;
     }
 
-    // /**
-    //  * @return Project[] Returns an array of Project objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function create($params)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $project = new Project();
+        $project->setName($params['name']);
 
-    /*
-    public function findOneBySomeField($value): ?Project
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->entityManager->persist($project);
+        $this->entityManager->flush();
+
+        return $project;
     }
-    */
+
+    public function update($id, $params)
+    {
+        $project = $this->find($id);
+        $project->setName($params['name']);
+
+        $this->entityManager->flush();
+
+        return $project;
+    }
+
+    public function delete($id)
+    {
+        $project = $this->find($id);
+
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+    }
 }

@@ -13,78 +13,85 @@ use FOS\RestBundle\Request\ParamFetcher;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use App\Repository\TaskRepository;
 use App\Repository\ProjectRepository;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectController extends AbstractFOSRestController
+class TaskController extends AbstractFOSRestController
 {
+    private $taskRepository;
     private $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository)
-    {
+    public function __construct(
+        TaskRepository $taskRepository,
+        ProjectRepository $projectRepository
+    ) {
+        $this->taskRepository = $taskRepository;
         $this->projectRepository = $projectRepository;
     }
 
     /**
-     * @Route("/projects/{id}", methods="GET")
+     * @Route("/tasks/{id}", methods="GET")
      */
     public function getAction(int $id)
     {
-        $project = $this->projectRepository->find($id);
+        $task = $this->taskRepository->find($id);
 
         return $this->handleView(
             $this->view(
-                $project,
+                $task,
                 Response::HTTP_OK
             )
         );
     }
 
     /**
-     * @Route("/projects", methods="GET")
+     * @Route("/tasks", methods="GET")
      */
     public function getAllAction()
     {
-        $projects = $this->projectRepository->findAll();
+        $tasks = $this->taskRepository->findAll();
 
         return $this->handleView(
             $this->view(
-                $projects,
+                $tasks,
                 Response::HTTP_OK
             )
         );
     }
 
     /**
-     * @Route("/projects", methods="POST")
-     *
-     * @param ParamFetcher $paramFetcher
+     * @Route("/tasks", methods="POST")
      */
-    public function postAction(Request $request, ParamFetcher $paramFetcher)
+    public function postAction(Request $request)
     {
         $params = $request->request->all();
-        $product = $this->projectRepository->create($params);
+
+        $project = $this->projectRepository->find($params['projectId']);
+        $params['project'] = $project;
+
+        $task = $this->taskRepository->create($params);
 
         return $this->handleView(
             $this->view(
-                $product,
+                $task,
                 Response::HTTP_CREATED
             )
         );
     }
 
     /**
-     * @Route("/projects/{id}", methods="PUT")
+     * @Route("/tasks/{id}", methods="PUT")
      */
     public function putAction(Request $request, int $id)
     {
         $params = $request->request->all();
-        $product = $this->projectRepository->update($id, $params);
+        $task = $this->taskRepository->update($id, $params);
 
         return $this->handleView(
             $this->view(
-                $product,
+                $task,
                 Response::HTTP_OK
             )
         );
@@ -92,11 +99,11 @@ class ProjectController extends AbstractFOSRestController
 
 
     /**
-     * @Route("/projects/{id}", methods="DELETE")
+     * @Route("/tasks/{id}", methods="DELETE")
      */
     public function deleteAction(int $id)
     {
-        $this->projectRepository->delete($id);
+        $this->taskRepository->delete($id);
 
         return $this->handleView(
             $this->view(
