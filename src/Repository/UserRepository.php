@@ -5,9 +5,12 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,9 +20,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $entityManager;
+    private $encoderFactory;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        EntityManagerInterface $entityManager,
+        EncoderFactoryInterface $encoderFactory
+    ) {
         parent::__construct($registry, User::class);
+
+        $this->entityManager = $entityManager;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -36,32 +48,51 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function create($params)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $user = new User();
+        $user->setEmail($params['email']);
 
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $encoder = $this->encoderFactory->getEncoder($user);
+        $hashedPassword = $encoder->encodePassword(
+            $params['password'],
+            null
+        );
+        $user->setPassword($hashedPassword);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
-    */
+
+    public function update($id, $params)
+    {
+        $user = $this->find($id);
+        $user->setEmail($params['email']);
+
+        $encoder = $this->encoderFactory->getEncoder($user);
+        $hashedPassword = $encoder->encodePassword(
+            $params['password'],
+            null
+        );
+        $user->setPassword($hashedPassword);
+
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function delete($id)
+    {
+        $user = $this->find($id);
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+    }
+
+    public function getTotal()
+    {
+        return $this->count([]);
+    }
 }
