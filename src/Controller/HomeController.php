@@ -8,13 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractFOSRestController
-{	
-	/**
-	 * @Route("/", methods="GET") 
-	 */
-	public function index()
-	{
-		$data = ['status' => 'OK'];
+{
+    /**
+     * @Route("/", methods="GET")
+     */
+    public function index()
+    {
+        $data = ['status' => 'OK'];
 
         return $this->handleView(
             $this->view(
@@ -22,5 +22,5 @@ class HomeController extends AbstractFOSRestController
                 Response::HTTP_OK
             )
         );
-	}
+    }
 }

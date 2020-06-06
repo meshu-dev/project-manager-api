@@ -17,7 +17,7 @@ use App\Repository\UserRepository;
 
 use Symfony\Component\HttpFoundation\Response;
 
-use FOS\RestBundle\View\View As RestView;
+use FOS\RestBundle\View\View as RestView;
 
 class UserController extends AbstractFOSRestController
 {

@@ -18,7 +18,7 @@ use App\Repository\ProjectRepository;
 
 use Symfony\Component\HttpFoundation\Response;
 
-use FOS\RestBundle\View\View As RestView;
+use FOS\RestBundle\View\View as RestView;
 
 class TaskController extends AbstractFOSRestController
 {
