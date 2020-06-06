@@ -21,6 +21,9 @@ use FOS\RestBundle\View\View as RestView;
 
 class ProjectController extends AbstractFOSRestController
 {
+    /**
+     * @var App\Repository\ProjectRepository
+     */
     private $projectRepository;
 
     public function __construct(ProjectRepository $projectRepository)
