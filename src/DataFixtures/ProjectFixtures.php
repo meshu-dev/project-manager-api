@@ -9,7 +9,7 @@ use App\Entity\Project;
 
 class ProjectFixtures extends BaseFixture
 {
-	private static $projectCount = 6;
+	private static $projectCount = 2;
 
     public function loadData(ObjectManager $manager)
     {
