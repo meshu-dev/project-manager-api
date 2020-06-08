@@ -15,7 +15,7 @@ class TaskFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function loadData(ObjectManager $manager)
     {
-        $this->createMany(Task::class, self::$taskCount, function(Task $task, $count) {
+        $this->createMany(Task::class, self::$taskCount, function (Task $task, $count) {
             $task->setProject($this->getRandomReference(Project::class));
             $task->setName(ucfirst($this->faker->bs));
             $task->setDescription(ucfirst($this->faker->realText(100)));

@@ -9,12 +9,12 @@ use App\Entity\Project;
 
 class ProjectFixtures extends BaseFixture
 {
-	private static $projectCount = 2;
+    private static $projectCount = 2;
 
     public function loadData(ObjectManager $manager)
     {
-    	$this->createMany(Project::class, self::$projectCount, function(Project $project, $count) {
-	        $project->setName(ucfirst($this->faker->company));
-    	});
+        $this->createMany(Project::class, self::$projectCount, function (Project $project, $count) {
+            $project->setName(ucfirst($this->faker->company));
+        });
     }
 }

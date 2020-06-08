@@ -5,16 +5,16 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Faker\Factory As Faker;
+use Faker\Factory as Faker;
 
 abstract class BaseFixture extends Fixture
 {
-	private $manager;
-	private $referencesIndex = [];
+    private $manager;
+    private $referencesIndex = [];
 
-	protected $faker;
+    protected $faker;
 
-	abstract protected function loadData(ObjectManager $em);
+    abstract protected function loadData(ObjectManager $em);
 
     public function load(ObjectManager $manager)
     {
@@ -37,7 +37,8 @@ abstract class BaseFixture extends Fixture
         }
     }
 
-    protected function getRandomReference(string $className) {
+    protected function getRandomReference(string $className)
+    {
         if (!isset($this->referencesIndex[$className])) {
             $this->referencesIndex[$className] = [];
 

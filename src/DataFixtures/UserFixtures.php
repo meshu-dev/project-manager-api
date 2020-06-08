@@ -10,17 +10,17 @@ use App\Entity\User;
 
 class UserFixtures extends BaseFixture
 {
-	private $encoderFactory;
+    private $encoderFactory;
 
-	public function __construct(
-		EncoderFactoryInterface $encoderFactory
-	) {
-		$this->encoderFactory = $encoderFactory;
-	}
+    public function __construct(
+        EncoderFactoryInterface $encoderFactory
+    ) {
+        $this->encoderFactory = $encoderFactory;
+    }
 
     public function loadData(
-    	ObjectManager $manager
-   	) {
+        ObjectManager $manager
+    ) {
         $user = new User();
         $user->setEmail('test@gmail.com');
 
