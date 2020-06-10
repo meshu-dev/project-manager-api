@@ -2,10 +2,8 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-
 use App\Entity\Project;
+use Doctrine\Persistence\ObjectManager;
 
 class ProjectFixtures extends BaseFixture
 {

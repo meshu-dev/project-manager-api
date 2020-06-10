@@ -2,11 +2,9 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use App\Entity\User;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserFixtures extends BaseFixture
 {

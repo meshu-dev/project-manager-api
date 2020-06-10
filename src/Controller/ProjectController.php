@@ -1,23 +1,22 @@
 <?php
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Meshu
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\Request\ParamFetcher;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use App\Repository\ProjectRepository;
-
-use Symfony\Component\HttpFoundation\Response;
-
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View as RestView;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends AbstractFOSRestController
 {
@@ -67,8 +66,6 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route("/projects", methods="POST")
-     *
-     * @param ParamFetcher $paramFetcher
      */
     public function postAction(Request $request, ParamFetcher $paramFetcher)
     {
@@ -98,7 +95,6 @@ class ProjectController extends AbstractFOSRestController
             )
         );
     }
-
 
     /**
      * @Route("/projects/{id}", methods="DELETE")

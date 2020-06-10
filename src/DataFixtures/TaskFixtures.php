@@ -2,12 +2,10 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Task;
 use App\Entity\Project;
+use App\Entity\Task;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class TaskFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -25,7 +23,7 @@ class TaskFixtures extends BaseFixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            ProjectFixtures::class
+            ProjectFixtures::class,
         ];
     }
 }

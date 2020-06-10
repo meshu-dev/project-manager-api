@@ -2,22 +2,12 @@
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\Request\ParamFetcher;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use App\Repository\UserRepository;
-
-use Symfony\Component\HttpFoundation\Response;
-
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\View as RestView;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractFOSRestController
 {
@@ -94,7 +84,6 @@ class UserController extends AbstractFOSRestController
             )
         );
     }
-
 
     /**
      * @Route("/users/{id}", methods="DELETE")
