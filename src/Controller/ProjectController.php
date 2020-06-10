@@ -1,12 +1,4 @@
 <?php
-/*
- * This file is part of the Symfony package.
- *
- * (c) Meshu
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace App\Controller;
 
@@ -18,19 +10,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Provides endpoints for projects.
+ */
 class ProjectController extends AbstractFOSRestController
 {
     /**
-     * @var App\Repository\ProjectRepository
+     * @var ProjectRepository
      */
     private $projectRepository;
 
+    /**
+     * @param ProjectRepository $projectRepository Project repository
+     */
     public function __construct(ProjectRepository $projectRepository)
     {
         $this->projectRepository = $projectRepository;
     }
 
     /**
+     * Get a project by a specified ID.
+     *
+     * @param int $id The ID of the project
+     *
+     * @return string The project formatted to output type
+     *
      * @Route("/projects/{id}", methods="GET")
      */
     public function getAction(int $id)
@@ -46,6 +50,10 @@ class ProjectController extends AbstractFOSRestController
     }
 
     /**
+     * Get all projects.
+     *
+     * @return string The projects formatted to output type
+     *
      * @Route("/projects", methods="GET")
      */
     public function getAllAction()
@@ -65,6 +73,13 @@ class ProjectController extends AbstractFOSRestController
     }
 
     /**
+     * Create a new project.
+     *
+     * @param Request      $request      Request data
+     * @param ParamFetcher $paramFetcher Used to access request parameters
+     *
+     * @return string The new project formatted to output type
+     *
      * @Route("/projects", methods="POST")
      */
     public function postAction(Request $request, ParamFetcher $paramFetcher)
@@ -81,6 +96,13 @@ class ProjectController extends AbstractFOSRestController
     }
 
     /**
+     * Change an existing project.
+     *
+     * @param Request $request Request data
+     * @param int     $id      The ID of the project
+     *
+     * @return string The updated project formatted to output type
+     *
      * @Route("/projects/{id}", methods="PUT")
      */
     public function putAction(Request $request, int $id)
@@ -97,6 +119,12 @@ class ProjectController extends AbstractFOSRestController
     }
 
     /**
+     * Delete an existing project.
+     *
+     * @param int $id The ID of the project
+     *
+     * @return null No content as project is deleted
+     *
      * @Route("/projects/{id}", methods="DELETE")
      */
     public function deleteAction(int $id)
