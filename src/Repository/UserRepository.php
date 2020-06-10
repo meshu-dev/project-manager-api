@@ -12,16 +12,25 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Retrieve, create and change user data in data store.
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var EncoderFactoryInterface
+     */
     private $encoderFactory;
 
+    /**
+     * @param ManagerRegistry         $registry      Manager registry
+     * @param EntityManagerInterface  $entityManager Entity manager
+     * @param EncoderFactoryInterface $ncoderFactory Encoder factory
+     */
     public function __construct(
         ManagerRegistry $registry,
         EntityManagerInterface $entityManager,
@@ -35,6 +44,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param UserInterface $user               The user entity
+     * @param string        $newEncodedPassword The encrypted password
      */
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
@@ -47,6 +59,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    /**
+     * Create a new user entity and save to data store.
+     *
+     * @param array $params The parameters used for new user
+     *
+     * @return User The user entity
+     */
     public function create($params)
     {
         $user = new User();
@@ -65,6 +84,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $user;
     }
 
+    /**
+     * Retrieve and update user entity then save changes to data store.
+     *
+     * @param int   $id     The ID for the user to update
+     * @param array $params The parameters used to update user
+     *
+     * @return User The user entity
+     */
     public function update($id, $params)
     {
         $user = $this->find($id);
@@ -82,6 +109,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $user;
     }
 
+    /**
+     * Retrieve and user task entity then save changes to data store.
+     *
+     * @param int $id The ID for the user to delete
+     */
     public function delete($id)
     {
         $user = $this->find($id);
@@ -90,6 +122,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->entityManager->flush();
     }
 
+    /**
+     * Get total number of users available.
+     */
     public function getTotal()
     {
         return $this->count([]);

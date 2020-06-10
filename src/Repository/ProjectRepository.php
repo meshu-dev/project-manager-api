@@ -8,15 +8,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Project|null find($id, $lockMode = null, $lockVersion = null)
- * @method Project|null findOneBy(array $criteria, array $orderBy = null)
- * @method Project[]    findAll()
- * @method Project[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Retrieve, create and change project data in data store.
  */
 class ProjectRepository extends ServiceEntityRepository
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
+    /**
+     * @param ManagerRegistry        $registry      Manager registry
+     * @param EntityManagerInterface $entityManager Entity manager
+     */
     public function __construct(
         ManagerRegistry $registry,
         EntityManagerInterface $entityManager
@@ -25,6 +29,13 @@ class ProjectRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Create a new project entity and save to data store.
+     *
+     * @param array $params The parameters used for new project
+     *
+     * @return Project The project entity
+     */
     public function create($params)
     {
         $project = new Project();
@@ -36,6 +47,14 @@ class ProjectRepository extends ServiceEntityRepository
         return $project;
     }
 
+    /**
+     * Retrieve and update project entity then save changes to data store.
+     *
+     * @param int   $id     The ID for the project to update
+     * @param array $params The parameters used to update project
+     *
+     * @return Project The project entity
+     */
     public function update($id, $params)
     {
         $project = $this->find($id);
@@ -46,6 +65,11 @@ class ProjectRepository extends ServiceEntityRepository
         return $project;
     }
 
+    /**
+     * Retrieve and delete project entity then save changes to data store.
+     *
+     * @param int $id The ID for the project to delete
+     */
     public function delete($id)
     {
         $project = $this->find($id);
@@ -54,6 +78,9 @@ class ProjectRepository extends ServiceEntityRepository
         $this->entityManager->flush();
     }
 
+    /**
+     * Get total number of projects available.
+     */
     public function getTotal()
     {
         return $this->count([]);

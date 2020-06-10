@@ -19,7 +19,7 @@ class TaskController extends AbstractFOSRestController
      * @var TaskRepository
      */
     private $taskRepository;
-    
+
     /**
      * @var ProjectRepository
      */

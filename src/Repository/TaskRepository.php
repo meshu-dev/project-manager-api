@@ -8,15 +8,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Task|null find($id, $lockMode = null, $lockVersion = null)
- * @method Task|null findOneBy(array $criteria, array $orderBy = null)
- * @method Task[]    findAll()
- * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Retrieve, create and change task data in data store.
  */
 class TaskRepository extends ServiceEntityRepository
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
+    /**
+     * @param ManagerRegistry        $registry      Manager registry
+     * @param EntityManagerInterface $entityManager Entity manager
+     */
     public function __construct(
         ManagerRegistry $registry,
         EntityManagerInterface $entityManager
@@ -25,6 +29,13 @@ class TaskRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Create a new task entity and save to data store.
+     *
+     * @param array $params The parameters used for new project
+     *
+     * @return Task The task entity
+     */
     public function create($params)
     {
         $task = new Task();
@@ -38,6 +49,14 @@ class TaskRepository extends ServiceEntityRepository
         return $task;
     }
 
+    /**
+     * Retrieve and update task entity then save changes to data store.
+     *
+     * @param int   $id     The ID for the task to update
+     * @param array $params The parameters used to update task
+     *
+     * @return Task The task entity
+     */
     public function update($id, $params)
     {
         $task = $this->find($id);
@@ -48,6 +67,11 @@ class TaskRepository extends ServiceEntityRepository
         return $task;
     }
 
+    /**
+     * Retrieve and delete task entity then save changes to data store.
+     *
+     * @param int $id The ID for the task to delete
+     */
     public function delete($id)
     {
         $task = $this->find($id);
@@ -56,6 +80,9 @@ class TaskRepository extends ServiceEntityRepository
         $this->entityManager->flush();
     }
 
+    /**
+     * Get total number of tasks available.
+     */
     public function getTotal()
     {
         return $this->count([]);

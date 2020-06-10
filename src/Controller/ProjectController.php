@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\ProjectRepository;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
