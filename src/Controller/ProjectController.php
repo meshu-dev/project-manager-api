@@ -75,14 +75,13 @@ class ProjectController extends AbstractFOSRestController
     /**
      * Create a new project.
      *
-     * @param Request      $request      Request data
-     * @param ParamFetcher $paramFetcher Used to access request parameters
+     * @param Request $request Request data
      *
      * @return string The new project formatted to output type
      *
      * @Route("/projects", methods="POST")
      */
-    public function postAction(Request $request, ParamFetcher $paramFetcher)
+    public function postAction(Request $request)
     {
         $params = $request->request->all();
         $product = $this->projectRepository->create($params);

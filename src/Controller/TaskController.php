@@ -10,11 +10,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Provides endpoints for tasks.
+ */
 class TaskController extends AbstractFOSRestController
 {
+    /**
+     * @var TaskRepository
+     */
     private $taskRepository;
+    
+    /**
+     * @var ProjectRepository
+     */
     private $projectRepository;
 
+    /**
+     * @param TaskRepository    $taskRepository    Task repository
+     * @param ProjectRepository $projectRepository Project repository
+     */
     public function __construct(
         TaskRepository $taskRepository,
         ProjectRepository $projectRepository
@@ -24,6 +38,12 @@ class TaskController extends AbstractFOSRestController
     }
 
     /**
+     * Get a task by a specified ID.
+     *
+     * @param int $id The ID of the task
+     *
+     * @return string The task formatted to output type
+     *
      * @Route("/tasks/{id}", methods="GET")
      */
     public function getAction(int $id)
@@ -39,6 +59,10 @@ class TaskController extends AbstractFOSRestController
     }
 
     /**
+     * Get all tasks.
+     *
+     * @return string The tasks formatted to output type
+     *
      * @Route("/tasks", methods="GET")
      */
     public function getAllAction()
@@ -58,6 +82,12 @@ class TaskController extends AbstractFOSRestController
     }
 
     /**
+     * Create a new task.
+     *
+     * @param Request $request Request data
+     *
+     * @return string The new task formatted to output type
+     *
      * @Route("/tasks", methods="POST")
      */
     public function postAction(Request $request)
@@ -78,6 +108,13 @@ class TaskController extends AbstractFOSRestController
     }
 
     /**
+     * Change an existing task.
+     *
+     * @param Request $request Request data
+     * @param int     $id      The ID of the task
+     *
+     * @return string The updated task formatted to output type
+     *
      * @Route("/tasks/{id}", methods="PUT")
      */
     public function putAction(Request $request, int $id)
@@ -94,6 +131,12 @@ class TaskController extends AbstractFOSRestController
     }
 
     /**
+     * Delete an existing task.
+     *
+     * @param int $id The ID of the task
+     *
+     * @return null No content as task is deleted
+     *
      * @Route("/tasks/{id}", methods="DELETE")
      */
     public function deleteAction(int $id)

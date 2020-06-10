@@ -14,6 +14,8 @@ class HomeController extends AbstractFOSRestController
     /**
      * Index endpoint which outputs API status.
      *
+     * @return string The status formatted to output type
+     *
      * @Route("/", methods="GET")
      */
     public function index()
