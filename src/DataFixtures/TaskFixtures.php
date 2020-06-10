@@ -7,10 +7,21 @@ use App\Entity\Task;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Creates and saves test tasks.
+ */
 class TaskFixtures extends BaseFixture implements DependentFixtureInterface
 {
+    /**
+     * @var int
+     */
     private static $taskCount = 25;
 
+    /**
+     * Create test task data.
+     *
+     * @param ObjectManager $manager The object manager
+     */
     public function loadData(ObjectManager $manager)
     {
         $this->createMany(Task::class, self::$taskCount, function (Task $task, $count) {
@@ -20,6 +31,9 @@ class TaskFixtures extends BaseFixture implements DependentFixtureInterface
         });
     }
 
+    /**
+     * Get project fixture as a project is required to create tasks.
+     */
     public function getDependencies()
     {
         return [
