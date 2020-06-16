@@ -21,9 +21,12 @@ brew install php@7.4
 composer install
 ```
 - Copy the .env.example file to a new file named .env
-- Fill in .env variables in new file
 ```
 cp .env.example .env
+```
+- Fill in .env variables in new file
+```
+vim .env
 ```
 - Run migration files to update MySQL data
 ```
